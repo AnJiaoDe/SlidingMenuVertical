@@ -631,7 +631,7 @@ public class ViewMeasureUtils {
  **更新日志**
  
  *V1.1.1*
-  - Android 自定义控件之SlidingMenuVertical(垂直折叠抽屉，有滑动渐变回调，可自行添加渐变动画)
+  - Android 自定义控件之SlidingMenuVertical顶部悬浮(垂直折叠抽屉，有滑动渐变回调，可自行添加渐变动画)
   
   
 
