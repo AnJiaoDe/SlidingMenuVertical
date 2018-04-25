@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.cy.translucentparent.StatusBarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff3F51B5"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ff3F51B5">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="抽屉"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/tv_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="开关"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+    <com.cy.slidemenuvertical.SlidingMenuVertical
+        android:id="@+id/slidingMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#33454545"
+            android:text="上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_middle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="悬浮"
+                android:textColor="#454545" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#e6e6e6"
+                android:overScrollMode="never"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="下面\n下面\n下面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n下面\n菜逼" />
+            </ScrollView>
+        </LinearLayout>
+
+
+    </com.cy.slidemenuvertical.SlidingMenuVertical>
+</LinearLayout>
