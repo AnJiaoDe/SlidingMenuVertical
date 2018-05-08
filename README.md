@@ -1,6 +1,6 @@
 [简书](https://www.jianshu.com/p/eb814d818c07)
 
-[APK](https://github.com/AnJiaoDe/SlidingMenuVertical/tree/master/app/build/outputs/apk)
+[APK](https://github.com/AnJiaoDe/SlidingMenuVertical/blob/master/app/build/outputs/apk/app-debug.apk)
 
 
 
@@ -655,7 +655,7 @@ public class ViewMeasureUtils {
  
 [GitHub](https://github.com/AnJiaoDe)
 
-[CSDN](https://blog.csdn.net/confusing_awakening)
+关注专题[Android开发常用开源库](https://www.jianshu.com/c/3ff4b3951dc5)
 
 [简书](https://www.jianshu.com/u/b8159d455c69)
 
