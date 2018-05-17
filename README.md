@@ -23,6 +23,9 @@ dependencies {
 	}
 ```
 
+**注意：如果sync报错，是因为和com.android.tools.build:gradle 3.0有关，**
+**可以改将compile改为implementation 或者api** 
+
 ![Image text](gif/1.gif)
 
 [状态栏全透明请参考](https://github.com/AnJiaoDe/StatusNavigationTransparent)
