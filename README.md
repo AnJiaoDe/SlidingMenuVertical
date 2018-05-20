@@ -19,7 +19,7 @@ allprojects {
 
 ```
 dependencies {
-	        compile 'com.github.AnJiaoDe:SlidingMenuVertical:V1.1.1'
+	        compile 'com.github.AnJiaoDe:SlidingMenuVertical:V1.1.2'
 	}
 ```
 
