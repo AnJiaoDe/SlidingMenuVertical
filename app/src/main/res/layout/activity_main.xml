@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.cy.translucentparent.StatusBarView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff3F51B5"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -38,7 +34,7 @@
             android:textColor="#ffffff" />
     </RelativeLayout>
 
-    <com.cy.slidemenuvertical.SlidingMenuVertical
+    <com.cy.slidingmenuvertical.SlidingMenuVertical
         android:id="@+id/slidingMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -81,5 +77,5 @@
         </LinearLayout>
 
 
-    </com.cy.slidemenuvertical.SlidingMenuVertical>
+    </com.cy.slidingmenuvertical.SlidingMenuVertical>
 </LinearLayout>

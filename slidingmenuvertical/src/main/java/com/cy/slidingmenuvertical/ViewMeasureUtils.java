@@ -1,4 +1,4 @@
-package com.cy.slidemenuvertical;
+package com.cy.slidingmenuvertical;
 
 import android.view.View;
 import android.view.View.MeasureSpec;

@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cy.slidemenuvertical.SlidingMenuVertical;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,5 @@ public class MainActivity extends BaseActivity {
                 slidingMenuVertical.open(!slidingMenuVertical.isOpened());
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
