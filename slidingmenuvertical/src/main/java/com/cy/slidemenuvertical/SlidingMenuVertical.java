@@ -54,13 +54,6 @@ public class SlidingMenuVertical extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-
-        view_top.measure(widthMeasureSpec, ViewMeasureUtils.getChildHeightMeasureSpec(view_top, heightMeasureSpec));
-
-//        view_middle.measure(widthMeasureSpec,ViewMeasureUtils.getChildHeightMeasureSpec(view_middle,heightMeasureSpec));
-        view_bottom.measure(widthMeasureSpec, heightMeasureSpec);
-
     }
 
 
