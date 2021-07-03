@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	        api 'com.github.AnJiaoDe:SlidingMenuVertical:V1.1.4'
+	        api 'com.github.AnJiaoDe:SlidingMenuVertical:V1.1.5'
 	}
 ```
 
