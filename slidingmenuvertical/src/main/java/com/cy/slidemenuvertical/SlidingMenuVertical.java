@@ -43,6 +43,7 @@ public class SlidingMenuVertical extends LinearLayout {
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         // 当xml解析完成时的回调
 
         view_top = getChildAt(0);
