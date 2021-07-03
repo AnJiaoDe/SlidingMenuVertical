@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView tv_middle = (TextView) findViewById(R.id.tv_middle);
         final SlidingMenuVertical slidingMenuVertical = ((SlidingMenuVertical) findViewById(R.id.slidingMenu));
         slidingMenuVertical.setDuration_max(300);
-        slidingMenuVertical.setAmbit_scroll(100);
+        slidingMenuVertical.setAmbit_scroll(0);
+        slidingMenuVertical.setTopMenu(false);
         slidingMenuVertical.setOnSwitchListener(new SlidingMenuVertical.OnSwitchListener() {
             /*
                    滑动中
