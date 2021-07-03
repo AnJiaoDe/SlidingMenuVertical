@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cy.slidemenuvertical.SlidingMenuVertical;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

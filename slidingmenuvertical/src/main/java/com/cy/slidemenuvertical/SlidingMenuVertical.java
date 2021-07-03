@@ -1,4 +1,4 @@
-package com.cy.slidingmenuvertical;
+package com.cy.slidemenuvertical;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,45 +7,66 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
+
 /**
  * Created by lenovo on 2017/7/1.
  */
+
 public class SlidingMenuVertical extends LinearLayout {
-    private Scroller scroller;
+    private Scroller mScroller;
     private View view_top;
     private View view_bottom;
     private float downX;
     private float downY;
     private boolean opened = true;//状态是否开闭
+
+
     private OnSwitchListener onSwitchListener;
+
+
     private int duration_max = 300;//最长过度时间
+
     private int ambit_scroll = 100;//滑动界限，开闭
+
     private int y_opened = -1;    // * y_opened:抽屉打开时view_bootom的top y
+
     public SlidingMenuVertical(Context context) {
         this(context, null);
     }
+
+
     public SlidingMenuVertical(Context context, AttributeSet attrs) {
         super(context, attrs);
-        scroller = new Scroller(context);
+        mScroller = new Scroller(context);
         setOrientation(VERTICAL);
-    }
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        // 当xml解析完成时的回调
-        view_top = getChildAt(0);
-        view_bottom = getChildAt(1);
-    }
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        view_top.measure(widthMeasureSpec, ViewMeasureUtils.getChildHeightMeasureSpec(view_top, heightMeasureSpec));
-//        view_middle.measure(widthMeasureSpec,ViewMeasureUtils.getChildHeightMeasureSpec(view_middle,heightMeasureSpec));
-        view_bottom.measure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
+    protected void onFinishInflate() {
+        // 当xml解析完成时的回调
+
+        view_top = getChildAt(0);
+        view_bottom = getChildAt(1);
+
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+
+        view_top.measure(widthMeasureSpec, ViewMeasureUtils.getChildHeightMeasureSpec(view_top, heightMeasureSpec));
+
+//        view_middle.measure(widthMeasureSpec,ViewMeasureUtils.getChildHeightMeasureSpec(view_middle,heightMeasureSpec));
+        view_bottom.measure(widthMeasureSpec, heightMeasureSpec);
+
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+
         setY_opened();
         // 拦截
         // 竖直滑动时，去拦截
@@ -53,20 +74,26 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
                 float moveY = event.getY();
                 // 竖直滑动
+
                 if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
                     //上面隐藏
                     if (opened == false) {
+
                         return false;
                     }
+
                     //上面显示并且下滑
                     if (opened == true && (moveY - downY) > 0) {
+
                         return false;
                     }
+
                     return true;
                 }
                 break;
@@ -75,42 +102,9 @@ public class SlidingMenuVertical extends LinearLayout {
             default:
                 break;
         }
-        return super.dispatchTouchEvent(event);
+        return super.onInterceptTouchEvent(event);
     }
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent event) {
-//        setY_opened();
-//        // 拦截
-//        // 竖直滑动时，去拦截
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                downX = event.getX();
-//                downY = event.getY();
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                float moveX = event.getX();
-//                float moveY = event.getY();
-//                // 竖直滑动
-//                if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
-//                    //上面隐藏
-//                    if (opened == false) {
-//                        return false;
-//                    }
-//                    //上面显示并且下滑
-//                    if (opened == true && (moveY - downY) > 0) {
-//                        return false;
-//                    }
-//                    return true;
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onInterceptTouchEvent(event);
-//    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -121,32 +115,47 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
                 float moveY = event.getY();
+
                 int dy = (int) (downY - moveY + 0.5f);// 四舍五入 20.9 + 0.5-->20
+
+
 //                Log.e("dy","++++++++++++++++++++++++++++"+dy);
+
                 int scrollY = getScrollY();
                 //mDownY - moveY>0上滑
+
                 if (scrollY + dy > 0) {
                     scrollBy(0, dy);
                     if (scrollY + dy > getHeight_top()) {
                         scrollTo(0, getHeight_top());
                     }
                 }
+
                 downX = moveX;
                 downY = moveY;
+
                 break;
             case MotionEvent.ACTION_UP:
 //                Log.e("heigth_top", "+++++++++++++++++" + height_top);
 //                Log.e("scrollY", "+++++++++++++++++" + getScrollY());
                 if (opened) {
+
+
                     open(!(getScrollY() > ambit_scroll || getScrollY() > getHeight_top() / 3));
+
                 } else {
+
                     open(getScrollY() < getHeight_top() - ambit_scroll || getScrollY() < getHeight_top() * 2 / 3);
+
                 }
+
                 break;
+
         }
         // 消费掉
         return true;
     }
+
     /**
      * 开闭抽屉
      *
@@ -154,14 +163,20 @@ public class SlidingMenuVertical extends LinearLayout {
      */
     public void open(boolean open) {
         setY_opened();
+
         this.opened = open;
         //打开
         if (open) {
+
 //            Log.e("打开", "+++++++++++++++++++++++++++++");
+
+
             int startX = getScrollX();// 起始的坐标X
             int startY = getScrollY();// 起始的坐标Y
+
             int endX = 0;
             int endY = 0;
+
             int dx = endX - startX;// 增量X
             int dy = endY - startY;// 增量Y
             // 1px = 10
@@ -169,39 +184,52 @@ public class SlidingMenuVertical extends LinearLayout {
             if (duration > duration_max) {
                 duration = duration_max;
             }
-            scroller.startScroll(startX, startY, dx, dy, duration);
+
+            mScroller.startScroll(startX, startY, dx, dy, duration);
         } else {
+
+
             Log.e("关闭", "+++++++++++++++++++++++++++++" + getScrollY());
             int startX = getScrollX();// 起始的坐标X
             int startY = getScrollY();// 起始的坐标Y
+
             int endX = 0;
             int endY = getHeight_top();
+
             int dx = endX - startX;// 增量X
             int dy = endY - startY;// 增量Y
+
             // 1px = 10
             int duration = Math.abs(dy) * 10;
             if (duration > duration_max) {
                 duration = duration_max;
             }
+
             // 模拟数据变化
-            scroller.startScroll(startX, startY, dx, dy, duration);
+            mScroller.startScroll(startX, startY, dx, dy, duration);
         }
+
         invalidate();// 触发ui绘制 --> draw() --> dispatchDraw()--> drawChild -->
     }
+
     @Override
     public void computeScroll() {
-        if (scroller.computeScrollOffset()) {// 如果正在计算的过程中
+        if (mScroller.computeScrollOffset()) {// 如果正在计算的过程中
             // 更新滚动的位置
-            scrollTo(0, scroller.getCurrY());
+            scrollTo(0, mScroller.getCurrY());
             invalidate();
         }
+
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+
 //        Log.e("y_now", ScreenUtils.getViewScreenLocation(view_bottom)[1] + "++++++++++++++++++++++");
+//
 //        Log.e("y_closed", y_opened - height_top + "++++++++++++++++++++++");
+
         if (onSwitchListener != null) {
             onSwitchListener.onSwitching(t - oldt < 0 ? true : false,
                     getY_now(), getY_opened(), getY_opened() - getHeight_top());
@@ -211,8 +239,10 @@ public class SlidingMenuVertical extends LinearLayout {
             }
             if (getY_now() == getY_opened() - getHeight_top()) {
 //                Log.e("false", "++++++++++++++++++++++++");
+
                 onSwitchListener.onSwitched(false);
             }
+
         }
     }
 
@@ -249,7 +279,9 @@ public class SlidingMenuVertical extends LinearLayout {
      * 获取 * y_opened:抽屉打开时view_bootom的top y
      */
     private void setY_opened(){
+
         if (y_opened<0){
+
             y_opened=getViewScreenLocation(view_bottom)[1];
             Log.e("y _open",y_opened+"++++++++++++++++++++");
         }
@@ -297,15 +329,18 @@ public class SlidingMenuVertical extends LinearLayout {
         int[] location = new int[2];
         // 获取控件在屏幕中的位置，返回的数组分别为控件左顶点的 x、y 的值
         view.getLocationOnScreen(location);
+
         return location;
     }
     public interface OnSwitchListener {
+
         /*
         滑动中
         y_now:实时view_bottom的top y, y_opened:抽屉打开时view_bootom的top y,y_closed:抽屉关闭时view_bottom的top y  top y:在屏幕中的top y坐标
 
          */
         public void onSwitching(boolean isToOpen, int y_now, int y_opened, int y_closed);
+
         /*
         滑动停止，状态是否开闭
          */
