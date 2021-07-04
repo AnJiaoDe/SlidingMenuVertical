@@ -39,13 +39,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#33454545"
-            android:text="上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n" />
+            android:background="#e6e6e6"
+            android:overScrollMode="never"
+            android:scrollbars="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#33454545"
+                android:text="上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n上面面\n" />
 
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
