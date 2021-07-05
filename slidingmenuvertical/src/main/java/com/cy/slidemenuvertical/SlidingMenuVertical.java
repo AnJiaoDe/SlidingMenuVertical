@@ -189,6 +189,10 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
+                pointer_others_count = 0;
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                pointer_others_count++;
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
@@ -202,7 +206,7 @@ public class SlidingMenuVertical extends LinearLayout {
                 int scrollY = getScrollY();
                 //mDownY - moveY>0上滑
 
-                if (scrollY + dy > 0) {
+                if (pointer_others_count==0&&scrollY + dy > 0) {
                     scrollBy(0, dy);
                     if (scrollY + dy > getD()) scrollTo(0, getD());
                 }
@@ -214,6 +218,7 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_UP:
 //                Log.e("heigth_top", "+++++++++++++++++" + height_top);
 //                Log.e("scrollY", "+++++++++++++++++" + getScrollY());
+                if(pointer_others_count!=0)break;
                 if (opened) {
                     if (isTopSlide) {
                         open(getScrollY() <= ambit_scroll && getScrollY() <= getD() / 3);
@@ -229,6 +234,9 @@ public class SlidingMenuVertical extends LinearLayout {
                     }
                 }
 
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                pointer_others_count--;
                 break;
 
         }
