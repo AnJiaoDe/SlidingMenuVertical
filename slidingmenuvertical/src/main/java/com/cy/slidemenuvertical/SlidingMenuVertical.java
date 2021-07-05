@@ -19,6 +19,7 @@ public class SlidingMenuVertical extends LinearLayout {
     private float downX;
     private float downY;
     private boolean opened = true;//状态是否开闭
+    private int openedLast = -1;//上次
 
 
     private OnSwitchListener onSwitchListener;
@@ -202,7 +203,7 @@ public class SlidingMenuVertical extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction() ) {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
@@ -232,8 +233,8 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_UP:
 //                Log.e("heigth_top", "+++++++++++++++++" + height_top);
 //                Log.e("scrollY", "+++++++++++++++++" + getScrollY());
-                if (pointer_others_count > 0){
-                    pointer_others_count=0;
+                if (pointer_others_count > 0) {
+                    pointer_others_count = 0;
                     break;
                 }
                 if (opened) {
@@ -265,10 +266,6 @@ public class SlidingMenuVertical extends LinearLayout {
      */
     public void open(boolean open) {
         setY_opened();
-
-        LogUtils.log("open", open);
-//        this.opened = isTopSlide ?open:!open;
-        this.opened = open;
         //打开
         if (open) {
 
@@ -337,13 +334,16 @@ public class SlidingMenuVertical extends LinearLayout {
         if (onSwitchListener != null) {
             onSwitchListener.onSwitching(t - oldt < 0 ? isTopSlide : !isTopSlide,
                     getY_now(), getY_opened(), getY_opened() - getD());
-            if (getY_now() == getY_opened()) {
-//                Log.e("true", "++++++++++++++++++++++++");
-                onSwitchListener.onSwitched(isTopSlide);
-            }
-            if (getY_now() == getY_opened() - getD()) {
-//                Log.e("false", "++++++++++++++++++++++++");
 
+            if (getY_now() == getY_opened()) {
+                if(openedLast==1)return;
+                openedLast=1;
+                this.opened = isTopSlide;
+                onSwitchListener.onSwitched(isTopSlide);
+            } else if (getY_now() == getY_opened() - getD()) {
+                if(openedLast==2)return;
+                openedLast=2;
+                this.opened = !isTopSlide;
                 onSwitchListener.onSwitched(!isTopSlide);
             }
 
@@ -438,7 +438,6 @@ public class SlidingMenuVertical extends LinearLayout {
         int[] location = new int[2];
         // 获取控件在屏幕中的位置，返回的数组分别为控件左顶点的 x、y 的值
         view.getLocationOnScreen(location);
-
         return location;
     }
 
