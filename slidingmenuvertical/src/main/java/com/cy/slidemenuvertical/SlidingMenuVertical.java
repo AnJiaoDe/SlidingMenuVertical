@@ -335,7 +335,7 @@ public class SlidingMenuVertical extends LinearLayout {
 //        Log.e("y_closed", y_opened - height_top + "++++++++++++++++++++++");
 
         if (onSwitchListener != null) {
-            onSwitchListener.onSwitching(t - oldt < 0 ? true : false,
+            onSwitchListener.onSwitching(t - oldt < 0 ? isTopSlide : !isTopSlide,
                     getY_now(), getY_opened(), getY_opened() - getD());
             if (getY_now() == getY_opened()) {
 //                Log.e("true", "++++++++++++++++++++++++");
