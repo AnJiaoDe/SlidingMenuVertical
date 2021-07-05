@@ -31,6 +31,7 @@ public class SlidingMenuVertical extends LinearLayout {
     private int y_opened = -1;    // * y_opened:抽屉打开时view_bootom的top y
 
     private boolean isTopSlide = true;
+    private int pointer_others_count = 0;
 
     public SlidingMenuVertical(Context context) {
         this(context, null);
@@ -70,51 +71,19 @@ public class SlidingMenuVertical extends LinearLayout {
         opened = isTopSlide;
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                downX = event.getX();
-//                downY = event.getY();
-//
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                float moveX = event.getX();
-//                float moveY = event.getY();
-//                // 竖直滑动
-//                LogUtils.log("dispatchTouchEvent","ACTION_MOVE");
-//
-//                if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
-//                    if (opened == true) {
-//
-//                        return false;
-//                    }
-//
-//                    //上面显示并且下滑
-////                    if (opened == true && (moveY - downY) > 0) {
-////
-////                        return false;
-////                    }
-//
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.dispatchTouchEvent(event);
-//    }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         setY_opened();
         // 拦截
         // 竖直滑动时，去拦截
-        switch (event.getAction()) {
+        switch (event.getAction()& MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
+                pointer_others_count = 0;
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                pointer_others_count++;
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
@@ -123,7 +92,8 @@ public class SlidingMenuVertical extends LinearLayout {
                 // 竖直滑动
                 LogUtils.log("onInterceptTouchEvent", opened);
 
-                if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
+                //考虑双指触摸
+                if (pointer_others_count==0&&(Math.abs(moveY - downY) > Math.abs(moveX - downX))) {
                     //抽屉打开了
                     if (opened) {
                         if (isTopSlide) {
@@ -175,6 +145,9 @@ public class SlidingMenuVertical extends LinearLayout {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                pointer_others_count--;
                 break;
             default:
                 break;
