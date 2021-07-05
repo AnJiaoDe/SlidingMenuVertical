@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cy.slidemenuvertical.LogUtils;
 import com.cy.slidemenuvertical.SlidingMenuVertical;
 
 public class SlideBottomActivity extends AppCompatActivity {
@@ -33,10 +34,14 @@ public class SlideBottomActivity extends AppCompatActivity {
 //
 //                tv_middle.setTextColor(Color.argb((int) (1.0f * (y_opened - y_now) / (y_opened - y_closed) * 255),
 //                        Color.red(0xffffffff), Color.green(0xffffffff), Color.blue(0xffffffff)));
+
+                LogUtils.log("isToOpen",isToOpen);
+
             }
 
             @Override
             public void onSwitched(boolean opened) {
+                LogUtils.log("opened",opened);
 
                 if (opened) {
 //                    tv_middle.setBackgroundColor(0xffffffff);
