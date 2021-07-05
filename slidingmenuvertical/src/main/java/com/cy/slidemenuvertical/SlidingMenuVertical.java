@@ -30,6 +30,7 @@ public class SlidingMenuVertical extends LinearLayout {
 
     private int y_opened = -1;    // * y_opened:抽屉打开时view_bootom的top y
 
+    private boolean isTopSlide = true;
 
     public SlidingMenuVertical(Context context) {
         this(context, null);
@@ -46,23 +47,67 @@ public class SlidingMenuVertical extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         // 当xml解析完成时的回调
-
         view_top = getChildAt(0);
         view_bottom = getChildAt(1);
-
-
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        if (isTopSlide) {
+            view_bottom.measure(widthMeasureSpec, heightMeasureSpec);
+        } else {
+            view_top.measure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
+    public boolean isTopSlide() {
+        return isTopSlide;
+    }
+
+    public void setTopSlide(boolean topSlide) {
+        isTopSlide = topSlide;
+        opened = isTopSlide;
+    }
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                downX = event.getX();
+//                downY = event.getY();
+//
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                float moveX = event.getX();
+//                float moveY = event.getY();
+//                // 竖直滑动
+//                LogUtils.log("dispatchTouchEvent","ACTION_MOVE");
+//
+//                if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
+//                    if (opened == true) {
+//
+//                        return false;
+//                    }
+//
+//                    //上面显示并且下滑
+////                    if (opened == true && (moveY - downY) > 0) {
+////
+////                        return false;
+////                    }
+//
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.dispatchTouchEvent(event);
+//    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-
         setY_opened();
         // 拦截
         // 竖直滑动时，去拦截
@@ -70,26 +115,62 @@ public class SlidingMenuVertical extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
-
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveX = event.getX();
                 float moveY = event.getY();
+                //canScrollVertically(1)表示手指是否能往上拖
                 // 竖直滑动
+                LogUtils.log("onInterceptTouchEvent", opened);
 
                 if (Math.abs(moveY - downY) > Math.abs(moveX - downX)) {
-                    //上面隐藏
-                    if (opened == false) {
-
-                        return false;
+                    //抽屉打开了
+                    if (opened) {
+                        if (isTopSlide) {
+                            //手指往下拖
+                            if (moveY > downY) {
+                                if (ScreenUtils.isInViewRange(view_top, event)) return false;
+                                if (view_bottom.canScrollVertically(-1) && ScreenUtils.isInViewRange(view_bottom, event)) return false;
+                            }
+                            //手指往上拖
+                            if (moveY < downY) {
+                                if (view_top.canScrollVertically(1) && ScreenUtils.isInViewRange(view_top, event)) return false;
+                                if (view_bottom.canScrollVertically(1) && ScreenUtils.isInViewRange(view_bottom, event)) return false;
+                            }
+                        } else {
+                            //手指往下拖
+                            if (moveY > downY) {
+                                if (view_bottom.canScrollVertically(-1) &&ScreenUtils.isInViewRange(view_top, event)) return false;
+                                if (view_bottom.canScrollVertically(-1) && ScreenUtils.isInViewRange(view_bottom, event)) return false;
+                            }
+                            //手指往上拖
+                            if (moveY < downY) {
+                                if (view_top.canScrollVertically(1) && ScreenUtils.isInViewRange(view_top, event)) return false;
+                                if (view_bottom.canScrollVertically(1) && ScreenUtils.isInViewRange(view_bottom, event)) return false;
+                            }
+                        }
+                    } else {
+                        if (isTopSlide) {
+                            //手指往下拖
+                            if (moveY > downY) {
+                                if (view_bottom.canScrollVertically(-1) && ScreenUtils.isInViewRange(view_bottom, event)) return false;
+                            }
+                            //手指往上拖
+                            if (moveY < downY) {
+                                if (view_bottom.canScrollVertically(1) && ScreenUtils.isInViewRange(view_bottom, event))
+                                    return false;
+                            }
+                        } else {
+                            //手指往下拖
+                            if (moveY > downY) {
+                                if (view_top.canScrollVertically(-1) && ScreenUtils.isInViewRange(view_top, event)) return false;
+                            }
+                            //手指往上拖
+                            if (moveY < downY) {
+                                if (view_top.canScrollVertically(1) && ScreenUtils.isInViewRange(view_top, event)) return false;
+                            }
+                        }
                     }
-
-                    //上面显示并且下滑
-                    if (opened == true && (moveY - downY) > 0) {
-
-                        return false;
-                    }
-
                     return true;
                 }
                 break;
@@ -99,6 +180,34 @@ public class SlidingMenuVertical extends LinearLayout {
                 break;
         }
         return super.onInterceptTouchEvent(event);
+    }
+
+    private boolean noIntercept(View view, float moveY, float downY, MotionEvent event) {
+        LogUtils.log("view.canScrollVertically(1)", view.canScrollVertically(1));
+        LogUtils.log("view.canScrollVertically(-1)", view.canScrollVertically(-1));
+        //手指往下拖
+        if (moveY > downY) {
+            //如果view还能滑动，不拦截
+            if (view.canScrollVertically(1)) {
+                if (ScreenUtils.isInViewRange(view, event)) return false;
+            } else {
+                return false;
+            }
+        }
+        //手指往上拖
+        if (moveY < downY) {
+            if (view.canScrollVertically(-1)) {
+                if (ScreenUtils.isInViewRange(view, event)) return false;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int getD() {
+        return isTopSlide ? getHeight_top() : getHeight_bottom();
     }
 
     @Override
@@ -115,14 +224,14 @@ public class SlidingMenuVertical extends LinearLayout {
                 int dy = (int) (downY - moveY + 0.5f);// 四舍五入 20.9 + 0.5-->20
 
 
-//                Log.e("dy","++++++++++++++++++++++++++++"+dy);
+                Log.e("dy", "++++++++++++++++++++++++++++" + dy);
 
                 int scrollY = getScrollY();
                 //mDownY - moveY>0上滑
 
                 if (scrollY + dy > 0) {
                     scrollBy(0, dy);
-                    if (scrollY + dy > getHeight_top()) scrollTo(0, getHeight_top());
+                    if (scrollY + dy > getD()) scrollTo(0, getD());
                 }
 
                 downX = moveX;
@@ -133,13 +242,18 @@ public class SlidingMenuVertical extends LinearLayout {
 //                Log.e("heigth_top", "+++++++++++++++++" + height_top);
 //                Log.e("scrollY", "+++++++++++++++++" + getScrollY());
                 if (opened) {
-
-                    open(!(getScrollY() > ambit_scroll || getScrollY() > getHeight_top() / 3));
+                    if (isTopSlide) {
+                        open(getScrollY() <= ambit_scroll && getScrollY() <= getD() / 3);
+                    } else {
+                        open((getScrollY() >= getD() - ambit_scroll) && getScrollY() >= getD() * 2 / 3);
+                    }
 
                 } else {
-
-                    open(getScrollY() < getHeight_top() - ambit_scroll || getScrollY() < getHeight_top() * 2 / 3);
-
+                    if (isTopSlide) {
+                        open(getScrollY() < getD() - ambit_scroll || getScrollY() < getD() * 2 / 3);
+                    } else {
+                        open(getScrollY() > ambit_scroll || getScrollY() > getD() / 3);
+                    }
                 }
 
                 break;
@@ -157,6 +271,8 @@ public class SlidingMenuVertical extends LinearLayout {
     public void open(boolean open) {
         setY_opened();
 
+        LogUtils.log("open", open);
+//        this.opened = isTopSlide ?open:!open;
         this.opened = open;
         //打开
         if (open) {
@@ -168,7 +284,7 @@ public class SlidingMenuVertical extends LinearLayout {
             int startY = getScrollY();// 起始的坐标Y
 
             int endX = 0;
-            int endY = 0;
+            int endY = isTopSlide ? 0 : getHeight_bottom();
 
             int dx = endX - startX;// 增量X
             int dy = endY - startY;// 增量Y
@@ -187,7 +303,7 @@ public class SlidingMenuVertical extends LinearLayout {
             int startY = getScrollY();// 起始的坐标Y
 
             int endX = 0;
-            int endY = getHeight_top();
+            int endY = isTopSlide ? getHeight_top() : 0;
 
             int dx = endX - startX;// 增量X
             int dy = endY - startY;// 增量Y
@@ -225,12 +341,12 @@ public class SlidingMenuVertical extends LinearLayout {
 
         if (onSwitchListener != null) {
             onSwitchListener.onSwitching(t - oldt < 0 ? true : false,
-                    getY_now(), getY_opened(), getY_opened() - getHeight_top());
+                    getY_now(), getY_opened(), getY_opened() - getD());
             if (getY_now() == getY_opened()) {
 //                Log.e("true", "++++++++++++++++++++++++");
                 onSwitchListener.onSwitched(true);
             }
-            if (getY_now() == getY_opened() - getHeight_top()) {
+            if (getY_now() == getY_opened() - getD()) {
 //                Log.e("false", "++++++++++++++++++++++++");
 
                 onSwitchListener.onSwitched(false);
@@ -336,6 +452,7 @@ public class SlidingMenuVertical extends LinearLayout {
         /*
         滑动中
         y_now:实时view_bottom的top y, y_opened:抽屉打开时view_bootom的top y,y_closed:抽屉关闭时view_bottom的top y  top y:在屏幕中的top y坐标
+
          */
         public void onSwitching(boolean isToOpen, int y_now, int y_opened, int y_closed);
 

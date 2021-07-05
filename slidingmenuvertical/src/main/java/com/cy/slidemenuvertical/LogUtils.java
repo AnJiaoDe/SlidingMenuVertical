@@ -2,12 +2,14 @@ package com.cy.slidemenuvertical;
 
 import android.util.Log;
 
+import com.cy.slidingmenuvertical.BuildConfig;
+
 /**
  * Created by lenovo on 2017/8/20.
  */
 
 public class LogUtils {
-    private static boolean DEBUG = true;
+    private static boolean DEBUG = BuildConfig.DEBUG;
 
     private LogUtils() {
     }
